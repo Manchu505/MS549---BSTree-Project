@@ -3,6 +3,8 @@
 #include <cstdlib>
 #include <ctime>
 #include <vector>
+#include <iomanip>
+#include <chrono>
 
 using namespace std; 
 
@@ -12,13 +14,14 @@ int main() {
     srand(static_cast<unsigned int>(time(nullptr)));
 
     // Add a set of random numbers to the BST
-    int total = 100;
+    int total = 10000;
     vector<int> addedNumbers;
     for (int i = 0; i < total; ++i) {
         int randomNumber = rand() % 1000;
         addedNumbers.push_back(randomNumber);
         bst.Add(randomNumber);
     }
+    auto startTreeInsert = chrono::high_resolution_clock::now();
     // Test inorder traversal
     bst.InorderTraverse();
 
@@ -51,6 +54,10 @@ int main() {
 
     // New inorder traversal after removal
     bst.InorderTraverse();
+    auto endTreeInsert = chrono::high_resolution_clock::now();
+    double durationTreeInsert = chrono::duration<double, milli>(endTreeInsert - startTreeInsert).count();
+    cout << fixed << setprecision(3);
+    cout << "\nTime Taken (MS): " << durationTreeInsert << "For " << total << " Nodes" << endl;
 
     return 0;
 }
